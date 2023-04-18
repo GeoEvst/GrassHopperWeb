@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Шифрование
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div align="center">
+    <h2 align="center">Выбери режим расшифрования</h2>
+        <a class="btn btn-warning" href="/decrypt">ГОСТ Р 34.12-2015</a>
+        <a class="btn btn-dark" href="/decrypt1">ГОСТ Р 34.13-2015</a>
+        <a class="btn btn-dark" href="/decrypt2">Расшифровать текстовое сообщение</a>
+    </div>
+    <details>
+        <summary>Режимы расшифрования</summary>
+         <b>1: Режим расшифрования по ГОСТ 34.12-2015:</b>
+         <p>В данном режиме расшифровывается блок данных, зашифрованный по ГОСТ Р 34.12-2015
+        <p>Ключ из ГОСТ: 8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef</p>
+        <p>Шифр из ГОСТ: 7f679d90bebc24305a468d42b9d4edcd</p>
+        <p>Открытый текст из ГОСТ: 1122334455667700ffeeddccbbaa9988</p>
+        <p><i>Подробнее об алгоритме ГОСТ Р 34.12-2015 в разделе "О шифре"</i></p>
+
+
+        <b>2: Режим расшифрования по ГОСТ 34.13-2015 (режим гаммирования):</b>
+         <p>В данном режиме расшифровывается блок данных, зашифрованный в режиме гаммирования по ГОСТ 34.13-2015
+        <p>Ключ из ГОСТ: 8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef</p>
+        <p>Синхропосылка из ГОСТ: 1234567890abcef0</p>
+        <p>Шифр из ГОСТ: f195d8bec10ed1dbd57b5fa240bda1b885eee733f6a13e5df33ce4b33c45dee4a5eae88be6356ed3d5e877f13564a3a5cb91fab1f20cbab6d1c6d15820bdba73</p>
+        <p>Открытый текст из ГОСТ: 1122334455667700ffeeddccbbaa998800112233445566778899aabbcceeff0a112233445566778899aabbcceeff0a002233445566778899aabbcceeff0a0011</p>
+        <p><i>Подробнее об алгоритме ГОСТ Р 34.13-2015 в разделе "О шифре"</i></p>
+
+
+        <b>3: Режим "Расшифровать текстовое сообщение":</b>
+         <p>В данном режиме расшифровывается блок данных, зашифрованный в режиме "Зашифровать текстовое сообщение"</p>
+    </details>
+    <h2 align="center">ГОСТ Р 34.12-2015</h2>
+    <details>
+        <summary>Формат записи ключа</summary>
+        <p> Ключ должен содержать строго 64 символа, в 16-ричном формате (HEX)</p>
+
+    </details>
+    <details >
+        <summary>Формат записи данных</summary>
+        <p> Блок исходных данных должен содержать строго 32 символа, в 16-ричном формате (HEX)</p>
+
+    </details>
+    {% for cat, msg in get_flashed_messages(True) %}
+    <div class="flash {{ cat }}">{{ msg }}</div>
+    {% endfor %}
+    <form method="post">
+        <p><label>Введите ключ:</label> <input type="text" name="key" id="key" value="{{ key }}" class="form-control" ><br>
+        <input type="submit" class="btn btn-warning btn-sm" value="Вставить ключ из ГОСТ" name="btn"><br>
+        <p><label>Введите шифр:</label> <input type="text" name="text" id="text" value="{{ text }}" class="form-control"><br>
+        <input type="submit" class="btn btn-primary" value="Расшифровать" name="btn"><br>
+        {% block res %}{% endblock %}
+    </form>
+</div>
+{% endblock %}
